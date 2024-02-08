@@ -13,7 +13,6 @@ router.get('/', (req, res) => {
       price: parseInt(faker.commerce.price(),10),
       image: faker.image.url()
     })
-
   }
   res.json(products);
 });
@@ -29,5 +28,13 @@ router.get('/:id', (req, res) => {
     price: 1000,
   });
 });
+
+router.post('/', (req, res) => {
+  const body = req.body;
+  res.json({
+    message: 'created',
+    date: body
+  })
+})
 
 module.exports = router;
