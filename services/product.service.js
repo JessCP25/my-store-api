@@ -10,7 +10,7 @@ class ProductsService {
     const limit = 100;
     for (let index = 0; index < limit; index++) {
       this.products.push({
-        id: faker.string.uuid,
+        id: faker.string.uuid(),
         name: faker.commerce.productName(),
         price: parseInt(faker.commerce.price(), 10),
         image: faker.image.url(),
@@ -18,9 +18,9 @@ class ProductsService {
     }
   }
 
-  create(data) {
+  async create(data) {
     const newProduct = {
-      id: faker.string.uuid,
+      id: faker.string.uuid(),
       ...data
     }
     this.products.push(newProduct);
@@ -28,14 +28,18 @@ class ProductsService {
   }
 
   find() {
-    return this.products;
+    return new Promise((resolve, reject) => {
+      setTimeout(()=>{
+        resolve(this.products);
+      },5000)
+    })
   }
 
-  findOne(id) {
+  async findOne(id) {
     return this.products.find(product => product.id === id)
   }
 
-  update(id, changes) {
+  async update(id, changes) {
     const index = this.products.findIndex(product => product.id === id);
     if(index === -1) {
       throw new Error('product not found');
@@ -48,7 +52,7 @@ class ProductsService {
     return this.products[index];
   }
 
-  delete(id) {
+  async delete(id) {
     const index = this.products.findIndex(product => product.id === id);
     if(index === -1) {
       throw new Error('product not found');
